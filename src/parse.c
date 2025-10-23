@@ -22,7 +22,7 @@ validate_db_header(
       return STATUS_ERROR;
    }
    struct dbheader_t* header = calloc(1, sizeof(struct dbheader_t));
-   if (header == -1){
+   if (header == NULL){
       printf("Malloc failed to allocate database header\n");
       return STATUS_ERROR;
    }
@@ -68,7 +68,7 @@ create_db_header
 ){
 
    struct dbheader_t* header = calloc(1, sizeof(struct dbheader_t));
-   if (header == -1){
+   if (header == NULL){
       printf("malloc failed to create header\n");
       return STATUS_ERROR;
    }
