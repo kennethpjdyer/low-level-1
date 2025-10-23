@@ -23,7 +23,7 @@ int validate_db_header(
    struct dbheader_t** headerOut);
 int read_employeeess(
    int fd, 
-   struct db_header_t* headerOut, 
+   struct dbheader_t* headerOut, 
    struct employee_t** employeesOut);
 
 void output_file(
