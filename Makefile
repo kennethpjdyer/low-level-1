@@ -21,7 +21,7 @@ $(TARGET): $(OBJ)
 	gcc -o $@ $(CFLAGS) $?
 
 obj/%.o: src/%.c
-	gcc -c $< -o $@ -Iinclude
+	gcc -c $< -o $@ $(CFLAGS) -Iinclude
 
 bin:
 	mkdir bin

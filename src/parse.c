@@ -11,7 +11,6 @@
 #include"parse.h"
 
 
-
 int 
 validate_db_header(
    int fd, 
@@ -72,9 +71,16 @@ create_db_header
       printf("malloc failed to create header\n");
       return STATUS_ERROR;
    }
-   header->version = ntohs(0x1);
-   header->count = ntohl(0);
-   header->magic = ntohl(HEADER_MAGIC);
+
+   unsigned short version = 0x1;
+   header->version = ntohs(version);
+
+   unsigned short count = 0;
+   header->count = ntohs(count);
+
+   unsigned int m = HEADER_MAGIC;
+   header->magic = ntohl(m);
+
    header->filesize = ntohl(sizeof(struct dbheader_t));
 
    *headerOut = header;

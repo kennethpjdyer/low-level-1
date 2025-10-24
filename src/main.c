@@ -13,6 +13,7 @@ void print_usage(char* argv[]){
       "\t -f - (required) path to databas file\n"
       , argv[0]);
 
+   return;
 }
 
 int main(int argc, char** argv){
