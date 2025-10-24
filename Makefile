@@ -1,8 +1,12 @@
 TARGET=bin/dbview
 SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c, obj/%.o, $(SRC))
+CFLAGS=-std=c23 \
+   -Wall -Wextra  -Wconversion -Wshadow -Wpointer-arith \
+   -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -pedantic \
+   -Wformat=2 -fstack-protector-strong
 
-run: clean default
+run: bin obj clean default
 	./$(TARGET) -nf dbview.db
 	./$(TARGET) -f dbview.db
 
@@ -14,7 +18,13 @@ clean:
 	rm -f *.db
 
 $(TARGET): $(OBJ)
-	gcc -o $@ $?
+	gcc -o $@ $(CFLAGS) $?
 
 obj/%.o: src/%.c
 	gcc -c $< -o $@ -Iinclude
+
+bin:
+	mkdir bin
+
+obj:
+	mkdir obj
