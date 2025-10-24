@@ -37,7 +37,7 @@ validate_db_header(
    header->filesize = ntohl(header->filesize);
 
    if (header->version != 1){
-      printf("Improper header version\n");
+      printf("Improper header version: %d\n", header->version);
       free(header);
       return STATUS_ERROR;
    }
@@ -72,10 +72,10 @@ create_db_header
       printf("malloc failed to create header\n");
       return STATUS_ERROR;
    }
-   header->version = 0x1;
-   header->count = 0;
-   header->magic = HEADER_MAGIC;
-   header->filesize = sizeof(struct dbheader_t);
+   header->version = ntohs(0x1);
+   header->count = ntohl(0);
+   header->magic = ntohl(HEADER_MAGIC);
+   header->filesize = ntohl(sizeof(struct dbheader_t));
 
    *headerOut = header;
    output_file(fd, header);
@@ -93,10 +93,10 @@ void output_file(
    }
 
    // Fix Endianness
-   dbhdr->magic = htonl(dbhdr->magic);
-   dbhdr->filesize = htonl(dbhdr->filesize);
-   dbhdr->count = htons(dbhdr->count);
    dbhdr->version = htons(dbhdr->version);
+   dbhdr->magic = htonl(dbhdr->magic);
+   dbhdr->count = htons(dbhdr->count);
+   dbhdr->filesize = htonl(dbhdr->filesize);
 
    lseek(fd, 0, SEEK_SET);
    write(fd, dbhdr, sizeof(struct dbheader_t));
