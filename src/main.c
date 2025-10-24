@@ -23,15 +23,20 @@ int main(int argc, char** argv){
    char* addString = NULL;
    char* filepath = NULL;
    bool newfile = false;
+   bool list = false;
    int dbfd = -1;
    struct dbheader_t* dbhdr = NULL;
    struct employee_t* employees = NULL;
 
    int c;
-   while ((c = getopt(argc, argv, "nf:a:")) != -1) {
+   while ((c = getopt(argc, argv, "nf:a:l")) != -1) {
       switch (c) {
          case 'n':
          newfile = true;
+         break;
+
+         case 'l':
+         list = true;
          break;
 
          case 'f':
@@ -89,6 +94,11 @@ int main(int argc, char** argv){
    // Add Employee
    if (addString){
       add_employee(dbhdr, &employees, addString);
+   }
+
+   // List
+   if (list){
+      list_employees(dbhdr, employees);
    }
 
    // Write Database to Disk

@@ -192,5 +192,22 @@ add_employee
    return STATUS_SUCCESS;
 }
 
+void 
+list_employees(
+   struct dbheader_t* dbhdr,
+   struct employee_t* employees
+){
+   int i = 0;
+
+   for(; i < dbhdr->count; i++){
+      printf(
+         "Employee %d\n\tName: %s\n\tAddress: %s\n\tHours: %d\n", 
+         i, 
+         employees[i].name,
+         employees[i].address,
+         employees[i].hours);
+   }
+}
+
 
 

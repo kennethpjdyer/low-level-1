@@ -43,4 +43,10 @@ add_employee
    char* 
 );
 
+void 
+list_employees(
+   struct dbheader_t*,
+   struct employee_t*
+);
+
 #endif
