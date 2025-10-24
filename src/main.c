@@ -74,7 +74,7 @@ int main(int argc, char** argv){
    }
 
    // Write Database to Disk
-   output_file(dbfd, dbhdr);
+   output_file(dbfd, dbhdr, NULL);
 
    return 0;
 }

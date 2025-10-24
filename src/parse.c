@@ -91,10 +91,13 @@ create_db_header
 
 void output_file(
    int fd,
-   struct dbheader_t* dbhdr){
+   struct dbheader_t* dbhdr,
+   struct employee_t* emp){
    if (fd < 0){
       printf("Bad FD from user\n");
       return;
+   }
+   if (emp == NULL){
    }
 
    // Fix Endianness

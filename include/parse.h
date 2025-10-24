@@ -31,7 +31,8 @@ int read_employees(
 
 void output_file(
    int fd,
-   struct dbheader_t*);
+   struct dbheader_t*,
+   struct employee_t*);
 
 
 #endif
