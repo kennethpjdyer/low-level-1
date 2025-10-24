@@ -73,15 +73,16 @@ create_db_header
    }
 
    unsigned short version = 0x1;
-   header->version = ntohs(version);
+   header->version = version;
 
    unsigned short count = 0;
-   header->count = ntohs(count);
+   header->count = count;
 
    unsigned int m = HEADER_MAGIC;
-   header->magic = ntohl(m);
+   header->magic = m;
 
-   header->filesize = ntohl(sizeof(struct dbheader_t));
+   unsigned int s = sizeof(struct dbheader_t);
+   header->filesize = s;
 
    *headerOut = header;
    output_file(fd, header);

@@ -3,7 +3,7 @@ SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c, obj/%.o, $(SRC))
 CFLAGS=-std=c23 \
    -Wall -Wextra  -Wconversion -Wshadow -Wpointer-arith \
-   -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes -pedantic \
+   -Wcast-qual -Wstrict-prototypes -pedantic \
    -Wformat=2 -fstack-protector-strong
 
 run: bin obj clean default
