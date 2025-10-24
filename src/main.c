@@ -57,11 +57,10 @@ int main(int argc, char** argv){
          printf("Unable to create database file\n");
          return -1;
       }
-      if (create_db_header(dbfd, &dbhdr) == STATUS_ERROR){
+      if (create_db_header(&dbhdr) == STATUS_ERROR){
          printf("Unable to create database header\n");
          return -1;
       }
-      return 0;
    } else {
       dbfd = open_db_file(filepath);
       if (dbfd == STATUS_ERROR){ 

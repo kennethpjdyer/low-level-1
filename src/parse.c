@@ -62,7 +62,6 @@ validate_db_header(
 int 
 create_db_header
 (
-   int fd, 
    struct dbheader_t** headerOut
 ){
 
@@ -85,7 +84,6 @@ create_db_header
    header->filesize = s;
 
    *headerOut = header;
-   output_file(fd, header);
 
    return STATUS_SUCCESS;
 }

@@ -6,9 +6,16 @@ CFLAGS=-std=c23 \
    -Wcast-qual -Wstrict-prototypes -pedantic \
    -Wformat=2 -fstack-protector-strong
 
-run: bin obj clean default
+run: bin obj clean default tests
+
+tests: test-create test-read
+
+test-create:
 	./$(TARGET) -nf dbview.db
+
+test-read:
 	./$(TARGET) -f dbview.db
+
 
 default: $(TARGET)
 
