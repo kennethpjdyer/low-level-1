@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<stdbool.h>
 #include<getopt.h>
 
@@ -9,8 +10,9 @@
 void print_usage(char* argv[]){
    printf(
       "Usage: %s -n -f <database file>\n"
-      "\t -n - create new database file\n"
       "\t -f - (required) path to databas file\n"
+      "\t -a - adds a new employee to the database\n"
+      "\t -n - create new database file\n"
       , argv[0]);
 
    return;
@@ -18,13 +20,15 @@ void print_usage(char* argv[]){
 
 int main(int argc, char** argv){
 
+   char* addString = NULL;
    char* filepath = NULL;
    bool newfile = false;
    int dbfd = -1;
    struct dbheader_t* dbhdr = NULL;
+   struct employee_t* employees = NULL;
 
    int c;
-   while ((c = getopt(argc, argv, "nf:")) != -1) {
+   while ((c = getopt(argc, argv, "nf:a:")) != -1) {
       switch (c) {
          case 'n':
          newfile = true;
@@ -32,6 +36,10 @@ int main(int argc, char** argv){
 
          case 'f':
          filepath = optarg;
+         break;
+
+         case 'a':
+         addString = optarg;
          break;
 
          case '?':
@@ -73,8 +81,18 @@ int main(int argc, char** argv){
       }
    }
 
+   if (read_employees(dbfd, dbhdr, &employees) != STATUS_SUCCESS) {
+      printf("Failed to read employees");
+      return 0;
+   }
+
+   // Add Employee
+   if (addString){
+      add_employee(dbhdr, &employees, addString);
+   }
+
    // Write Database to Disk
-   output_file(dbfd, dbhdr, NULL);
+   output_file(dbfd, dbhdr, employees);
 
    return 0;
 }

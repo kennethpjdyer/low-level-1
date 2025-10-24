@@ -35,4 +35,12 @@ int output_file(
    struct employee_t*);
 
 
+int
+add_employee
+(
+   struct dbheader_t*, 
+   struct employee_t**,
+   char* 
+);
+
 #endif

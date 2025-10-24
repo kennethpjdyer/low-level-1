@@ -92,22 +92,105 @@ create_db_header
 int output_file(
    int fd,
    struct dbheader_t* dbhdr,
-   struct employee_t* emp){
+   struct employee_t* employees){
    if (fd < 0){
       printf("Bad FD from user\n");
       return STATUS_ERROR;
    }
-   if (emp == NULL){
-   }
-
    // Fix Endianness
+   int realcount = dbhdr->count;
+   
    dbhdr->version = htons(dbhdr->version);
    dbhdr->magic = htonl(dbhdr->magic);
    dbhdr->count = htons(dbhdr->count);
-   dbhdr->filesize = htonl(dbhdr->filesize);
+   dbhdr->filesize = htonl(
+      sizeof(struct dbheader_t) + (sizeof(struct employee_t) * realcount));
+
 
    lseek(fd, 0, SEEK_SET);
    write(fd, dbhdr, sizeof(struct dbheader_t));
+
+   int i = 0;
+   for (; i < realcount; i++){
+      employees[i].hours = htonl(employees[i].hours);
+      write(fd, &employees[i], sizeof(struct employee_t));
+   }
+
    return STATUS_SUCCESS;
 
 }
+
+
+int 
+read_employees
+(
+   int fd, 
+   struct dbheader_t* dbhdr, 
+   struct employee_t** employeesOut
+){
+   if (fd < 0){
+      printf("Bad FD from user\n");
+      return STATUS_ERROR;
+   }
+   int count = dbhdr->count;
+   struct employee_t* employees = calloc(count, sizeof(struct employee_t));
+   if (employees == NULL){
+      printf("Malloc failed in read_employees\n");
+      return STATUS_ERROR;
+   }
+   read(fd, employees, count * sizeof(struct employee_t));
+
+   int i = 0;
+   for (; i < count; i++){
+      employees[i].hours = ntohl(employees[i].hours);
+   }
+   *employeesOut = employees;
+
+   return STATUS_SUCCESS;
+}
+
+int
+add_employee
+(
+   struct dbheader_t* dbhdr,
+   struct employee_t** employees,
+   char* addString
+){
+
+   if (dbhdr == NULL) return STATUS_ERROR;
+   if (employees == NULL) return STATUS_ERROR;
+   if (*employees == NULL) return STATUS_ERROR;
+
+   if (addString == NULL) return STATUS_ERROR;
+   
+     
+
+   char* name = strtok(addString, ",");
+   if (name == NULL) return STATUS_ERROR;
+   char* addr = strtok(NULL, ",");
+   if (addr == NULL) return STATUS_ERROR;
+  
+   char* hrs = strtok(NULL, ",");
+   if (hrs == NULL) return STATUS_ERROR;
+   
+
+   struct employee_t* e = *employees;
+   e = realloc(e, sizeof(struct employee_t) * dbhdr->count+1);
+   if (e == NULL){
+      printf("unable to realloc employees\n");
+      return STATUS_ERROR;
+   }
+   dbhdr->count++;
+
+   int pos = dbhdr->count - 1;
+   strncpy(e[pos].name, name, sizeof(e[pos].name));
+   strncpy(e[pos].address, addr, sizeof(e[pos].address));
+   e[pos].hours = atoi(hrs);
+
+   *employees = e;
+
+   return STATUS_SUCCESS;
+}
+
+
+
