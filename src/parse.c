@@ -89,13 +89,13 @@ create_db_header
 }
 
 
-void output_file(
+int output_file(
    int fd,
    struct dbheader_t* dbhdr,
    struct employee_t* emp){
    if (fd < 0){
       printf("Bad FD from user\n");
-      return;
+      return STATUS_ERROR;
    }
    if (emp == NULL){
    }
@@ -108,6 +108,6 @@ void output_file(
 
    lseek(fd, 0, SEEK_SET);
    write(fd, dbhdr, sizeof(struct dbheader_t));
-   return;
+   return STATUS_SUCCESS;
 
 }

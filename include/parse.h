@@ -29,7 +29,7 @@ int read_employees(
    struct dbheader_t* headerOut, 
    struct employee_t** employeesOut);
 
-void output_file(
+int output_file(
    int fd,
    struct dbheader_t*,
    struct employee_t*);
