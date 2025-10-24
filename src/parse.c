@@ -31,9 +31,9 @@ validate_db_header(
       free(header);
       return STATUS_ERROR;
    }
-   header->version = ntohs(header->version);
-   header->count = ntohs(header->count);
-   header->magic = ntohl(header->magic);
+   header->version  = ntohs(header->version);
+   header->count    = ntohs(header->count);
+   header->magic    = ntohl(header->magic);
    header->filesize = ntohl(header->filesize);
 
    if (header->version != 1){
@@ -42,7 +42,7 @@ validate_db_header(
       return STATUS_ERROR;
    }
 
-   if (header->magic!= HEADER_MAGIC){
+   if (header->magic != HEADER_MAGIC){
       printf("Improper header magic\n");
       free(header);
       return STATUS_ERROR;
@@ -78,6 +78,7 @@ create_db_header
    header->filesize = sizeof(struct dbheader_t);
 
    *headerOut = header;
+   output_file(fd, header);
 
    return STATUS_SUCCESS;
 }
