@@ -197,9 +197,10 @@ list_employees(
    struct dbheader_t* dbhdr,
    struct employee_t* employees
 ){
+   int realnumb = dbhdr->count;
    int i = 0;
 
-   for(; i < dbhdr->count; i++){
+   for(; i < realnumb; i++){
       printf(
          "Employee %d\n\tName: %s\n\tAddress: %s\n\tHours: %d\n", 
          i, 

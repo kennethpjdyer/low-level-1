@@ -9,7 +9,7 @@ CFLAGS=-std=c23
 
 run: bin obj clean default tests
 
-tests: test-create test-read test-add
+tests: test-create test-read test-add test-list
 
 test-create:
 	./$(TARGET) -nf dbview.db
@@ -19,6 +19,9 @@ test-read:
 
 test-add:
 	./$(TARGET) -f dbview.db -a "Timmy H.,123 Sheshire Ln, 120"
+
+test-list:
+	./$(TARGET) -f dbview.db -l
 
 
 default: $(TARGET)
