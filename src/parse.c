@@ -175,7 +175,7 @@ add_employee
    
 
    struct employee_t* e = *employees;
-   e = realloc(e, sizeof(struct employee_t) * dbhdr->count+1);
+   e = realloc(e, sizeof(struct employee_t) * (dbhdr->count+1));
    if (e == NULL){
       printf("unable to realloc employees\n");
       return STATUS_ERROR;
@@ -208,6 +208,17 @@ list_employees(
          employees[i].hours);
    }
 }
-
+/*
+*
+* Find by Name
+* Update Hours
+=== CRASH DETECTED ===
+Signal: 6 Description: Program aborted - likely due to assertion
+failure or memory corruption test_step3: malloc.c:2617:
+sysmalloc: Assertion `(old_top == initial_top (av) && old_size
+== 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse
+(old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)'
+failed.
+*/
 
 
